@@ -33,6 +33,7 @@
             position: fixed;
             top: 10px;
             right: 10px;
+            text-align: center;
         }
 
         button {
@@ -72,6 +73,14 @@
             padding: 5px;
             font-size: 16px;
         }
+
+        .nav-button {
+            display: block;
+            margin: 2px;
+            padding: 5px 10px;
+            font-size: 12px;
+            background-color: lightgray;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +102,13 @@
         <br>
         <button id="prevButton" onclick="prevPage()">←</button>
         <button id="nextButton" onclick="nextPage()">→</button>
+        <br>
+        <button class="nav-button" onclick="goToPage(0)">Indice</button>
+        <button class="nav-button" onclick="goToPage(1)">Nuestra Gente</button>
+        <button class="nav-button" onclick="goToPage(2)">Solicitudes del Personal</button>
+        <button class="nav-button" onclick="goToPage(3)">Solicitudes a DFMEMI</button>
+        <button class="nav-button" onclick="goToPage(4)">Fiscalizaciones</button>
+        <button class="nav-button" onclick="goToPage(5)">DFMEMI</button>
     </div>
 
     <script>
@@ -102,6 +118,7 @@
             "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=ReportSection",
             "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=ReportSection54989e5ddc145bc34544",
             "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=089d8240a4b93a6198d8",
+            "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9"
         ];
 
         let currentIndex = 0;
@@ -112,7 +129,7 @@
             rotationInterval = setInterval(() => {
                 currentIndex = (currentIndex + 1) % iframes.length;
                 document.getElementById('rotating-iframe').src = iframes[currentIndex];
-            }, 20000); // Cambia cada 20 segundos
+            }, 15000); // Cambia cada 15 segundos
             setActiveButton('playButton');
         }
 
@@ -133,6 +150,12 @@
         function nextPage() {
             stopRotation();
             currentIndex = (currentIndex + 1) % iframes.length;
+            document.getElementById('rotating-iframe').src = iframes[currentIndex];
+        }
+
+        function goToPage(index) {
+            stopRotation();
+            currentIndex = index;
             document.getElementById('rotating-iframe').src = iframes[currentIndex];
         }
 
