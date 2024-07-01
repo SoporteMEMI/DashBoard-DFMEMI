@@ -37,6 +37,12 @@
             margin: 2px;
             padding: 5px 10px;
             font-size: 12px;
+            background-color: lightgray;
+        }
+
+        .active {
+            background-color: darkblue;
+            color: white;
         }
     </style>
 </head>
@@ -46,8 +52,8 @@
     </div>
 
     <div id="controls">
-        <button onclick="startRotation()">Play</button>
-        <button onclick="stopRotation()">Stop</button>
+        <button id="playButton" onclick="startRotation()">Play</button>
+        <button id="stopButton" onclick="stopRotation()">Stop</button>
     </div>
 
     <script>
@@ -63,14 +69,26 @@
         let rotationInterval;
 
         function startRotation() {
+            stopRotation(); // Asegurarse de que no haya intervalos activos
             rotationInterval = setInterval(() => {
                 currentIndex = (currentIndex + 1) % iframes.length;
                 document.getElementById('rotating-iframe').src = iframes[currentIndex];
             }, 15000); // Cambia cada 15 segundos
+            setActiveButton('playButton');
         }
 
         function stopRotation() {
-            clearInterval(rotationInterval);
+            if (rotationInterval) {
+                clearInterval(rotationInterval);
+                rotationInterval = null;
+            }
+            setActiveButton('stopButton');
+        }
+
+        function setActiveButton(activeButtonId) {
+            document.getElementById('playButton').classList.remove('active');
+            document.getElementById('stopButton').classList.remove('active');
+            document.getElementById(activeButtonId).classList.add('active');
         }
     </script>
 </body>
