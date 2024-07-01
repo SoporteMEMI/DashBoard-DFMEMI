@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashBoard DFMEMI</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #iframe-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        #controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+        }
+
+        button {
+            margin: 2px;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="iframe-container">
+        <iframe id="rotating-iframe" title="DashBoards DFMEMI" src="https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9" allowfullscreen="true"></iframe>
+    </div>
+
+    <div id="controls">
+        <button onclick="startRotation()">Play</button>
+        <button onclick="stopRotation()">Stop</button>
+    </div>
+
+    <script>
+        const iframes = [
+            "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=e9d2654d1bb92e62c70c",
+            "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=2e42e40b04e6a4d7da47",
+            "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=ReportSection",
+            "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=ReportSection54989e5ddc145bc34544",
+            "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=089d8240a4b93a6198d8",
+        ];
+
+        let currentIndex = 0;
+        let rotationInterval;
+
+        function startRotation() {
+            rotationInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % iframes.length;
+                document.getElementById('rotating-iframe').src = iframes[currentIndex];
+            }, 15000); // Cambia cada 15 segundos
+        }
+
+        function stopRotation() {
+            clearInterval(rotationInterval);
+        }
+    </script>
+</body>
+</html>
