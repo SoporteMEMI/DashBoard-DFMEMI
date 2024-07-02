@@ -20,7 +20,7 @@
         #iframe-container {
             width: 100%;
             height: 100%;
-            display: none; /* Ocultar el iframe hasta que se ingrese la clave correcta */
+            display: block; /* Mostrar el iframe directamente */
         }
 
         iframe {
@@ -48,32 +48,6 @@
             color: white;
         }
 
-        #passwordModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        #passwordModal div {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        #passwordModal input {
-            margin-top: 10px;
-            padding: 5px;
-            font-size: 16px;
-        }
-
         .nav-button {
             display: block;
             margin: 2px;
@@ -84,16 +58,8 @@
     </style>
 </head>
 <body>
-    <div id="passwordModal">
-        <div>
-            <h2>Ingrese la clave para acceder</h2>
-            <input type="password" id="passwordInput" placeholder="Clave">
-            <button onclick="checkPassword()">Ingresar</button>
-        </div>
-    </div>
-
     <div id="iframe-container">
-        <iframe id="rotating-iframe" title="DashBoards DFMEMI" src="https://app.powerbi.com/reportEmbed?reportId=027ab27b-d8db-4c52-9e8e-eb810aa9f93c&autoAuth=true&ctid=4b4314ef-e271-4a54-861d-8b7f862e49c4"></iframe>
+        <iframe id="rotating-iframe" title="DashBoards DFMEMI" src="https://app.powerbi.com/reportEmbed?reportId=027ab27b-d8db-4c52-9e8e-eb810aa9f93c&autoAuth=true&ctid=4b4314ef-e271-4a54-861d-8b7f862e49c4" allowfullscreen="true"></iframe>
     </div>
 
     <div id="controls">
@@ -163,17 +129,6 @@
             document.getElementById('playButton').classList.remove('active');
             document.getElementById('stopButton').classList.remove('active');
             document.getElementById(activeButtonId).classList.add('active');
-        }
-
-        function checkPassword() {
-            const password = document.getElementById('passwordInput').value;
-            if (password === "DFMEMI") {
-                document.getElementById('passwordModal').style.display = 'none';
-                document.getElementById('iframe-container').style.display = 'block';
-                document.getElementById('controls').style.display = 'block';
-            } else {
-                alert("Clave incorrecta. Intente de nuevo.");
-            }
         }
     </script>
 </body>
