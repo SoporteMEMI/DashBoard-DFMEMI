@@ -20,7 +20,22 @@
         #iframe-container {
             width: 100%;
             height: 100%;
-            display: block; /* Mostrar el iframe directamente */
+            position: relative;
+        }
+
+        .iframe-wrapper {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .iframe-wrapper.active {
+            opacity: 1;
+            z-index: 1;
         }
 
         iframe {
@@ -34,6 +49,7 @@
             top: 10px;
             right: 10px;
             text-align: center;
+            z-index: 2;
         }
 
         button {
@@ -59,17 +75,19 @@
 </head>
 <body>
     <div id="iframe-container">
-        <iframe id="rotating-iframe" title="DashBoards DFMEMI" src="https://app.powerbi.com/reportEmbed?reportId=027ab27b-d8db-4c52-9e8e-eb810aa9f93c&autoAuth=true&ctid=4b4314ef-e271-4a54-861d-8b7f862e49c4" allowfullscreen="true"></iframe>
+        <!-- Los iframes se generarán dinámicamente -->
     </div>
 
     <div id="controls">
         <button id="playButton" onclick="startRotation()">Iniciar</button>
         <button id="stopButton" onclick="stopRotation()">Detener</button>
         <br>
+        <button id="refreshButton" onclick="refreshAllPages()">Refrescar Todo</button>
+        <br>
         <button id="prevButton" onclick="prevPage()">←</button>
         <button id="nextButton" onclick="nextPage()">→</button>
         <br>
-        <button class="nav-button" onclick="goToPage(0)">Indice</button>
+        <button class="nav-button" onclick="goToPage(0)">Índice</button>
         <button class="nav-button" onclick="goToPage(1)">Nuestra Gente</button>
         <button class="nav-button" onclick="goToPage(2)">Solicitudes del Personal</button>
         <button class="nav-button" onclick="goToPage(3)">Solicitudes a DFMEMI</button>
@@ -89,13 +107,87 @@
 
         let currentIndex = 0;
         let rotationInterval;
+        let rotationCount = 0; // Contador de rotaciones completas
+        const maxRotations = 10; // Número de rotaciones completas antes de reiniciar el ciclo de precarga
+        const iframeContainer = document.getElementById('iframe-container');
+        let loadedPages = new Array(iframes.length).fill(false); // Arreglo para rastrear qué páginas ya se cargaron
+        let cycleCount = 0; // Contador de ciclos completos (cada 10 rotaciones)
+        const pageDuration = 25000;
+
+        // Crear un iframe wrapper si no existe
+        function createIframeWrapper(index) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'iframe-wrapper';
+            wrapper.id = `iframe-wrapper-${index}`;
+            iframeContainer.appendChild(wrapper);
+            return wrapper;
+        }
+
+        // Cargar o mostrar un iframe
+        function loadIframe(index) {
+            let wrapper = document.getElementById(`iframe-wrapper-${index}`);
+            if (!wrapper) {
+                // Crear el wrapper si no existe
+                wrapper = createIframeWrapper(index);
+            }
+
+            // Si la página no ha sido cargada en este ciclo, cargarla
+            if (!loadedPages[index]) {
+                // Eliminar el iframe existente dentro del wrapper, si lo hay
+                const existingIframe = wrapper.querySelector('iframe');
+                if (existingIframe) {
+                    wrapper.removeChild(existingIframe);
+                }
+
+                const iframe = document.createElement('iframe');
+                iframe.src = iframes[index];
+                iframe.title = `Dashboard ${index}`;
+                iframe.setAttribute('allowfullscreen', 'true');
+                wrapper.appendChild(iframe);
+                loadedPages[index] = true;
+                console.log(`Página ${index} cargada por primera vez en el ciclo #${cycleCount + 1}`);
+            }
+        }
+
+        // Mostrar un iframe
+        function showIframe(index) {
+            // Cargar el iframe si no está cargado
+            loadIframe(index);
+
+            // Ocultar todos los iframes
+            const allWrappers = document.querySelectorAll('.iframe-wrapper');
+            allWrappers.forEach(wrapper => wrapper.classList.remove('active'));
+            // Mostrar el iframe actual
+            document.getElementById(`iframe-wrapper-${index}`).classList.add('active');
+            currentIndex = index;
+
+            // Verificar si se completó una rotación completa
+            if (index === 0) {
+                rotationCount++;
+                console.log(`Rotación completa #${rotationCount} en el ciclo #${cycleCount + 1}`);
+                // Si se alcanzaron las 10 rotaciones completas, reiniciar el ciclo de precarga
+                if (rotationCount >= maxRotations) {
+                    cycleCount++;
+                    rotationCount = 0; // Reiniciar el contador de rotaciones
+                    loadedPages.fill(false); // Marcar todas las páginas como no cargadas para el nuevo ciclo
+                    console.log(`Ciclo #${cycleCount} completado. Iniciando nuevo ciclo de precarga página por página`);
+                }
+            }
+        }
+
+        // Forzar el refresco de todas las páginas
+        function refreshAllPages() {
+            loadedPages.fill(false); // Marcar todas las páginas como no cargadas
+            showIframe(currentIndex); // Recargar la página actual inmediatamente
+            console.log(`Refresco manual iniciado a las ${new Date().toLocaleTimeString()}`);
+        }
 
         function startRotation() {
-            stopRotation(); // Asegurarse de que no haya intervalos activos
+            stopRotation();
             rotationInterval = setInterval(() => {
                 currentIndex = (currentIndex + 1) % iframes.length;
-                document.getElementById('rotating-iframe').src = iframes[currentIndex];
-            }, 25000); // Cambia cada 25 segundos
+                showIframe(currentIndex);
+            }, pageDuration);
             setActiveButton('playButton');
         }
 
@@ -110,19 +202,19 @@
         function prevPage() {
             stopRotation();
             currentIndex = (currentIndex - 1 + iframes.length) % iframes.length;
-            document.getElementById('rotating-iframe').src = iframes[currentIndex];
+            showIframe(currentIndex);
         }
 
         function nextPage() {
             stopRotation();
             currentIndex = (currentIndex + 1) % iframes.length;
-            document.getElementById('rotating-iframe').src = iframes[currentIndex];
+            showIframe(currentIndex);
         }
 
         function goToPage(index) {
             stopRotation();
             currentIndex = index;
-            document.getElementById('rotating-iframe').src = iframes[currentIndex];
+            showIframe(currentIndex);
         }
 
         function setActiveButton(activeButtonId) {
@@ -130,6 +222,9 @@
             document.getElementById('stopButton').classList.remove('active');
             document.getElementById(activeButtonId).classList.add('active');
         }
+
+        // Mostrar la primera página al cargar la página
+        window.onload = () => showIframe(0);
     </script>
 </body>
 </html>
