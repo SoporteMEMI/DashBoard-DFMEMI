@@ -228,6 +228,8 @@
         // Ejecutar al cargar la ventana
         window.onload = () => {
             showIframe(0);
+            startRotation(); // Iniciar rotación automáticamente
+            setActiveButton('playButton'); // Activar botón "Iniciar" por defecto
 
             // Programar refrescos automáticos
             scheduleRefresh(5, 40);
