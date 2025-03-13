@@ -82,23 +82,25 @@
         <button id="playButton" onclick="startRotation()">Iniciar</button>
         <button id="stopButton" onclick="stopRotation()">Detener</button>
         <br>
-        <button id="refreshButton" onclick="refreshAllPages()">Refrescar Todo</button>
+        <button id="refreshButton" onclick="refreshAllPages()">Refrescar</button>
         <br>
         <button id="prevButton" onclick="prevPage()">←</button>
         <button id="nextButton" onclick="nextPage()">→</button>
         <br>
         <button class="nav-button" onclick="goToPage(0)">Índice</button>
         <button class="nav-button" onclick="goToPage(1)">Nuestra Gente</button>
-        <button class="nav-button" onclick="goToPage(2)">Solicitudes del Personal</button>
-        <button class="nav-button" onclick="goToPage(3)">Solicitudes a DFMEMI</button>
-        <button class="nav-button" onclick="goToPage(4)">Fiscalizaciones</button>
-        <button class="nav-button" onclick="goToPage(5)">DFMEMI</button>
+        <button class="nav-button" onclick="goToPage(2)">DFMEMI en Números</button>
+        <button class="nav-button" onclick="goToPage(3)">Solicitudes del Personal</button>
+        <button class="nav-button" onclick="goToPage(4)">Solicitudes a DFMEMI</button>
+        <button class="nav-button" onclick="goToPage(5)">Fiscalizaciones</button>
+        <button class="nav-button" onclick="goToPage(6)">DFMEMI</button>
     </div>
 
     <script>
         const iframes = [
             "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=e9d2654d1bb92e62c70c",
             "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=2e42e40b04e6a4d7da47",
+            "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=712a0625a60659d97d9c",
             "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=ReportSection",
             "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=ReportSection54989e5ddc145bc34544",
             "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=089d8240a4b93a6198d8",
@@ -112,7 +114,7 @@
         const iframeContainer = document.getElementById('iframe-container');
         let loadedPages = new Array(iframes.length).fill(false); // Arreglo para rastrear qué páginas ya se cargaron
         let cycleCount = 0; // Contador de ciclos completos (cada 10 rotaciones)
-        const pageDuration = 25000;
+        const pageDuration = 5000;
 
         // Crear un iframe wrapper si no existe
         function createIframeWrapper(index) {
