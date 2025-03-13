@@ -1,47 +1,61 @@
 # DashBoard DFMEMI
 
-Este proyecto es un tablero de control interactivo para DFMEMI, que utiliza iframes para mostrar diferentes páginas de Power BI. El tablero permite la rotación automática entre las páginas, así como la navegación manual.
+Este proyecto es un tablero de control que utiliza iframes para mostrar diferentes páginas de Power BI. A continuación se describen las funcionalidades principales y cómo utilizarlas.
 
-## Estructura del Proyecto
+## Funcionalidades
 
-- `index.html`: El archivo principal que contiene la estructura HTML, estilos CSS y scripts JavaScript para el tablero.
+### Rotación de iframes
 
-## Configuración
+El tablero permite la rotación automática de iframes, mostrando cada página durante un tiempo determinado.
 
-1. Clona el repositorio en tu máquina local:
-    ```sh
-    git clone https://github.com/SoporteMEMI/DashBoard-DFMEMI.git
-    ```
+- **Iniciar rotación**: Presiona el botón "Iniciar" para comenzar la rotación automática de las páginas.
+- **Detener rotación**: Presiona el botón "Detener" para detener la rotación automática.
 
-2. Navega al directorio del proyecto:
-    ```sh
-    cd DashBoard-DFMEMI
-    ```
+### Navegación manual
 
-3. Abre el archivo `index.html` en tu navegador preferido.
+Puedes navegar manualmente entre las páginas utilizando los botones de navegación.
 
-## Uso
+- **Anterior**: Presiona el botón "←" para ir a la página anterior.
+- **Siguiente**: Presiona el botón "→" para ir a la página siguiente.
+- **Navegación directa**: Utiliza los botones de navegación para ir directamente a una página específica.
 
-- **Iniciar Rotación**: Haz clic en el botón "Iniciar" para comenzar la rotación automática entre las páginas.
-- **Detener Rotación**: Haz clic en el botón "Detener" para detener la rotación automática.
-- **Refrescar Páginas**: Haz clic en el botón "Refrescar" para recargar todas las páginas.
-- **Navegación Manual**: Usa los botones de navegación (←, →) para moverte entre las páginas manualmente.
-- **Ir a Página Específica**: Haz clic en los botones de navegación específicos para ir a una página en particular.
+### Refresco de páginas
+
+El tablero permite refrescar todas las páginas manualmente o en horarios programados.
+
+- **Refrescar manualmente**: Presiona el botón "Refrescar" para recargar todas las páginas.
+- **Refrescos automáticos**: Las páginas se refrescan automáticamente en los siguientes horarios:
+  - 05:40
+  - 08:10
+  - 09:10
+  - 10:40
+  - 12:40
+  - 13:40
+  - 14:40
+  - 15:40
+
+## Cómo usar
+
+1. Abre el archivo `index.html` en tu navegador.
+2. Utiliza los controles en la esquina superior derecha para navegar, iniciar/detener la rotación y refrescar las páginas.
 
 ## Personalización
 
-Puedes personalizar las URLs de los iframes modificando el arreglo `iframes` en el archivo `index.html`:
+Puedes personalizar las URLs de los iframes y la duración de cada página modificando las siguientes variables en el script:
+
 ```javascript
 const iframes = [
     "URL_DE_TU_IFRAME_1",
     "URL_DE_TU_IFRAME_2",
     // ...otras URLs
 ];
+
+let pageDuration = 25000; // Duración de cada página en milisegundos
 ```
 
 ## Contribuciones
 
-Las contribuciones son bienvenidas. Por favor, abre un issue o un pull request para discutir cualquier cambio que te gustaría hacer.
+Las contribuciones son bienvenidas. Por favor, abre un issue o un pull request para discutir cualquier cambio que te gustaría realizar.
 
 ## Licencia
 
