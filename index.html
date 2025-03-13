@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DashBoard DFMEMI</title>
     <style>
+        /* Estilos para el cuerpo y el html */
         body, html {
             margin: 0;
             padding: 0;
@@ -17,12 +18,14 @@
             background-color: #f0f0f0;
         }
 
+        /* Contenedor del iframe */
         #iframe-container {
             width: 100%;
             height: 100%;
             position: relative;
         }
 
+        /* Estilos para los wrappers de los iframes */
         .iframe-wrapper {
             width: 100%;
             height: 100%;
@@ -33,31 +36,36 @@
             transition: opacity 0.5s ease-in-out;
         }
 
+        /* Clase activa para el wrapper del iframe */
         .iframe-wrapper.active {
             opacity: 1;
             z-index: 1;
         }
 
+        /* Estilos para los iframes */
         iframe {
             width: 100%;
             height: 100%;
             border: 0;
         }
 
+        /* Controles de navegación */
         #controls {
             position: fixed;
             top: 10px;
             right: 10px;
             text-align: center;
             z-index: 2;
-            opacity: 0.5; /* Make controls translucent */
+            opacity: 0.5; /* Controles translúcidos */
             transition: opacity 0.3s ease-in-out;
         }
 
+        /* Controles visibles al pasar el ratón */
         #controls:hover {
-            opacity: 1; /* Fully visible on hover */
+            opacity: 1; /* Totalmente visible al pasar el ratón */
         }
 
+        /* Estilos para los botones */
         button {
             margin: 2px;
             padding: 5px 10px;
@@ -65,11 +73,13 @@
             background-color: lightgray;
         }
 
+        /* Botón activo */
         button.active {
             background-color: rgb(0, 108, 122);
             color: white;
         }
 
+        /* Botones de navegación */
         .nav-button {
             display: block;
             margin: 2px;
@@ -85,6 +95,7 @@
     </div>
 
     <div id="controls">
+        <!-- Botones de control -->
         <button id="playButton" onclick="startRotation()">Iniciar</button>
         <button id="stopButton" onclick="stopRotation()">Detener</button>
         <br>
@@ -93,6 +104,7 @@
         <button id="prevButton" onclick="prevPage()">←</button>
         <button id="nextButton" onclick="nextPage()">→</button>
         <br>
+        <!-- Botones de navegación -->
         <button class="nav-button" onclick="goToPage(0)">Índice</button>
         <button class="nav-button" onclick="goToPage(1)">Nuestra Gente</button>
         <button class="nav-button" onclick="goToPage(2)">DFMEMI en Números</button>
@@ -103,6 +115,7 @@
     </div>
 
     <script>
+        // URLs de los iframes
         const iframes = [
             "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=e9d2654d1bb92e62c70c",
             "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9&pageName=2e42e40b04e6a4d7da47",
@@ -113,12 +126,13 @@
             "https://app.powerbi.com/view?r=eyJrIjoiN2Y4NTVkNDUtNjAzYy00MTA3LWI3ZTAtMzE5MjUwMjgxZmIyIiwidCI6IjRiNDMxNGVmLWUyNzEtNGE1NC04NjFkLThiN2Y4NjJlNDljNCIsImMiOjF9"
         ];
 
-        let currentIndex = 0;
-        let pageDuration = 25000;
-        let rotationInterval;
-        const iframeContainer = document.getElementById('iframe-container');
-        let loadedPages = new Array(iframes.length).fill(false);
+        let currentIndex = 0; // Índice actual del iframe
+        let pageDuration = 25000; // Duración de cada página en milisegundos
+        let rotationInterval; // Intervalo de rotación
+        const iframeContainer = document.getElementById('iframe-container'); // Contenedor de iframes
+        let loadedPages = new Array(iframes.length).fill(false); // Páginas cargadas
 
+        // Crear wrapper para el iframe
         function createIframeWrapper(index) {
             const wrapper = document.createElement('div');
             wrapper.className = 'iframe-wrapper';
@@ -127,6 +141,7 @@
             return wrapper;
         }
 
+        // Cargar iframe
         function loadIframe(index) {
             let wrapper = document.getElementById(`iframe-wrapper-${index}`);
             if (!wrapper) {
@@ -149,6 +164,7 @@
             }
         }
 
+        // Mostrar iframe
         function showIframe(index) {
             loadIframe(index);
             const allWrappers = document.querySelectorAll('.iframe-wrapper');
@@ -157,12 +173,14 @@
             currentIndex = index;
         }
 
+        // Refrescar todas las páginas
         function refreshAllPages() {
             loadedPages.fill(false);
             showIframe(currentIndex);
             console.log(`Refresco manual iniciado a las ${new Date().toLocaleTimeString()}`);
         }
 
+        // Iniciar rotación
         function startRotation() {
             stopRotation();
             rotationInterval = setInterval(() => {
@@ -172,6 +190,7 @@
             setActiveButton('playButton');
         }
 
+        // Detener rotación
         function stopRotation() {
             if (rotationInterval) {
                 clearInterval(rotationInterval);
@@ -180,12 +199,14 @@
             setActiveButton('stopButton');
         }
 
+        // Establecer botón activo
         function setActiveButton(activeButtonId) {
             document.getElementById('playButton').classList.remove('active');
             document.getElementById('stopButton').classList.remove('active');
             document.getElementById(activeButtonId).classList.add('active');
         }
 
+        // Programar refresco
         function scheduleRefresh(hours, minutes) {
             const now = new Date();
             const targetTime = new Date();
@@ -200,13 +221,15 @@
             console.log(`Hora objetivo: ${targetTime.toLocaleTimeString()}`);
             setTimeout(() => {
                 refreshAllPages();
-                scheduleRefresh(hours, minutes); // Reschedule for the next day
+                scheduleRefresh(hours, minutes); // Reprogramar para el próximo día
             }, timeout);
         }
 
+        // Ejecutar al cargar la ventana
         window.onload = () => {
             showIframe(0);
 
+            // Programar refrescos automáticos
             scheduleRefresh(5, 40);
             scheduleRefresh(8, 10);
             scheduleRefresh(9, 10);
