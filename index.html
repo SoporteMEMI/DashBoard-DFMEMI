@@ -71,6 +71,7 @@
             padding: 5px 10px;
             font-size: 12px;
             background-color: lightgray;
+            transition: background-color 0.3s ease-in-out;
         }
 
         /* Botón activo */
@@ -86,6 +87,13 @@
             padding: 5px 10px;
             font-size: 12px;
             background-color: lightgray;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        /* Resaltar botones al pasar el ratón */
+        button:hover, .nav-button:hover {
+            background-color:  rgb(0, 164, 185);; /* Color de resaltado */
+            color: white;
         }
     </style>
 </head>
@@ -171,6 +179,14 @@
             allWrappers.forEach(wrapper => wrapper.classList.remove('active'));
             document.getElementById(`iframe-wrapper-${index}`).classList.add('active');
             currentIndex = index;
+            highlightNavButton(index);
+        }
+
+        // Resaltar botón de navegación
+        function highlightNavButton(index) {
+            const allNavButtons = document.querySelectorAll('.nav-button');
+            allNavButtons.forEach(button => button.classList.remove('active'));
+            allNavButtons[index].classList.add('active');
         }
 
         // Refrescar todas las páginas
@@ -197,6 +213,26 @@
                 rotationInterval = null;
             }
             setActiveButton('stopButton');
+        }
+
+        // Ir a la página anterior
+        function prevPage() {
+            stopRotation();
+            currentIndex = (currentIndex - 1 + iframes.length) % iframes.length;
+            showIframe(currentIndex);
+        }
+
+        // Ir a la página siguiente
+        function nextPage() {
+            stopRotation();
+            currentIndex = (currentIndex + 1) % iframes.length;
+            showIframe(currentIndex);
+        }
+
+        // Ir a Página específica
+        function goToPage(index) {
+            stopRotation();
+            showIframe(index);
         }
 
         // Establecer botón activo
